@@ -281,12 +281,6 @@ class QuillSimpleToolbar extends StatelessWidget
                     options: config.buttonOptions.linkStyle2,
                     baseOptions: config.buttonOptions.base,
                   ),
-          if (config.showSearchButton)
-            QuillToolbarSearchButton(
-              baseOptions: config.buttonOptions.base,
-              controller: controller,
-              options: config.buttonOptions.search,
-            ),
           if (config.showClipboardCut)
             QuillToolbarClipboardButton(
               baseOptions: config.buttonOptions.base,
@@ -309,12 +303,21 @@ class QuillSimpleToolbar extends StatelessWidget
               clipboardAction: ClipboardAction.paste,
             ),
         ],
+        // Custom buttons appear before search so callers control their position.
         [
           for (final customButton in config.customButtons)
             QuillToolbarCustomButton(
               baseOptions: config.buttonOptions.base,
               options: customButton,
               controller: controller,
+            ),
+        ],
+        [
+          if (config.showSearchButton)
+            QuillToolbarSearchButton(
+              baseOptions: config.buttonOptions.base,
+              controller: controller,
+              options: config.buttonOptions.search,
             ),
         ],
       ];
@@ -338,13 +341,19 @@ class QuillSimpleToolbar extends StatelessWidget
     return Builder(
       builder: (context) {
         if (config.multiRowsDisplay) {
-          return Wrap(
-            direction: config.axis,
-            alignment: config.toolbarIconAlignment,
-            crossAxisAlignment: config.toolbarIconCrossAlignment,
-            runSpacing: config.toolbarRunSpacing,
-            spacing: config.toolbarSectionSpacing,
-            children: childrenBuilder(context),
+          return Container(
+            decoration: config.decoration ??
+                BoxDecoration(
+                  color: config.color ?? Theme.of(context).canvasColor,
+                ),
+            child: Wrap(
+              direction: config.axis,
+              alignment: config.toolbarIconAlignment,
+              crossAxisAlignment: config.toolbarIconCrossAlignment,
+              runSpacing: config.toolbarRunSpacing,
+              spacing: config.toolbarSectionSpacing,
+              children: childrenBuilder(context),
+            ),
           );
         }
         return Container(

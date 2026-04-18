@@ -1,6 +1,10 @@
 library;
 
 export 'src/common/extensions/controller_ext.dart';
+export 'src/common/utils/element_utils/element_utils.dart';
+export 'src/common/utils/string.dart';
+export 'src/editor/image/widgets/image.dart' show getImageStyleString;
+export 'src/editor/image/widgets/image_resizer.dart';
 export 'src/editor/image/config/image_config.dart';
 export 'src/editor/image/config/image_web_config.dart';
 export 'src/editor/image/image_embed.dart';
