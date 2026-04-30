@@ -31,7 +31,7 @@ class QuillNumberPoint extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!attrs.containsKey(Attribute.indent.key) && indentLevelCounts.isEmpty) {
       return Container(
-        alignment: AlignmentDirectional.topEnd,
+        alignment: AlignmentDirectional.centerEnd,
         width: width,
         padding: EdgeInsetsDirectional.only(end: padding),
         color: backgroundColor,
@@ -43,7 +43,7 @@ class QuillNumberPoint extends StatelessWidget {
       );
     }
     return Container(
-      alignment: AlignmentDirectional.topEnd,
+      alignment: AlignmentDirectional.centerEnd,
       width: width,
       padding: EdgeInsetsDirectional.only(end: padding),
       color: backgroundColor,

@@ -1,6 +1,8 @@
 import 'dart:convert' show base64;
 import 'dart:io' show File;
 
+import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -40,7 +42,7 @@ ImageProvider getImageProviderByImageSource(
   }
 
   if (isHttpUrl(imageSource)) {
-    return NetworkImage(imageSource);
+    return CachedNetworkImageProvider(imageSource);
   }
 
   // File image
