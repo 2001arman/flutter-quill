@@ -70,20 +70,18 @@ class ImageResizerState extends State<ImageResizer> {
   }
 
   Widget _iconContainer(BuildContext context, String assetName) {
-    return Container(
-      padding: const EdgeInsets.all(6),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: Colors.white,
-      ),
-      child: SvgPicture.asset(
-        assetName,
-        package: 'flutter_quill_extensions',
-        width: 20,
-        height: 20,
-        colorFilter: ColorFilter.mode(
-          Theme.of(context).colorScheme.primary,
-          BlendMode.srcIn,
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: SvgPicture.asset(
+          assetName,
+          package: 'flutter_quill_extensions',
+          width: 30,
+          height: 30,
+          colorFilter: ColorFilter.mode(
+            Theme.of(context).colorScheme.primary,
+            BlendMode.srcIn,
+          ),
         ),
       ),
     );
@@ -103,7 +101,7 @@ class ImageResizerState extends State<ImageResizer> {
               context,
               isWidth ? 'assets/width.svg' : 'assets/height.svg',
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 2),
             Expanded(
               child: Card(
                 child: Slider.adaptive(
