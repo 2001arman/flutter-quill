@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter_quill/internal.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ImageResizer extends StatefulWidget {
   const ImageResizer({
@@ -68,25 +69,59 @@ class ImageResizerState extends State<ImageResizer> {
     );
   }
 
+  Widget _iconContainer(BuildContext context, String assetName) {
+    return Container(
+      padding: const EdgeInsets.all(6),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+      ),
+      child: SvgPicture.asset(
+        assetName,
+        package: 'flutter_quill_extensions',
+        width: 20,
+        height: 20,
+        colorFilter: ColorFilter.mode(
+          Theme.of(context).colorScheme.primary,
+          BlendMode.srcIn,
+        ),
+      ),
+    );
+  }
+
   Widget _slider({
     required bool isWidth,
     required ValueChanged<double> onChanged,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Card(
-        child: Slider.adaptive(
-          value: isWidth ? _width : _height,
-          max: isWidth ? widget.maxWidth : widget.maxHeight,
-          divisions: 1000,
-          // Might need to be changed
-          label: isWidth ? context.loc.width : context.loc.height,
-          onChanged: (val) {
-            setState(() {
-              onChanged(val);
-              _resizeImage();
-            });
-          },
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _iconContainer(
+              context,
+              isWidth ? 'assets/width.svg' : 'assets/height.svg',
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Card(
+                child: Slider.adaptive(
+                  value: isWidth ? _width : _height,
+                  max: isWidth ? widget.maxWidth : widget.maxHeight,
+                  divisions: 1000,
+                  // Might need to be changed
+                  label: isWidth ? context.loc.width : context.loc.height,
+                  onChanged: (val) {
+                    setState(() {
+                      onChanged(val);
+                      _resizeImage();
+                    });
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
