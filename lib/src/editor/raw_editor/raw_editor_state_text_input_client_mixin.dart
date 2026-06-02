@@ -373,6 +373,9 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   }
 
   @override
+  bool onFocusReceived() => false;
+
+  @override
   void connectionClosed() {
     if (!hasConnection) {
       return;
