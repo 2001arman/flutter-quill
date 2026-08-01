@@ -1302,10 +1302,16 @@ class RenderEditableTextLine extends RenderEditableBox {
         Offset(_resolvedPadding!.left, _resolvedPadding!.top);
 
     if (_leading != null) {
+      // Constrain to a single line's height (not the full, possibly
+      // multi-line, body) so the marker centers on the first line instead of
+      // the whole wrapped paragraph.
+      final firstLineHeight = _body!.preferredLineHeight;
       final leadingConstraints = innerConstraints.copyWith(
           minWidth: indentWidth,
           maxWidth: indentWidth,
-          maxHeight: _body!.size.height);
+          maxHeight: firstLineHeight < _body!.size.height
+              ? firstLineHeight
+              : _body!.size.height);
       _leading!.layout(leadingConstraints, parentUsesSize: true);
       (_leading!.parentData as BoxParentData).offset =
           Offset(0, _resolvedPadding!.top);
