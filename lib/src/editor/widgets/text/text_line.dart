@@ -1304,8 +1304,20 @@ class RenderEditableTextLine extends RenderEditableBox {
     if (_leading != null) {
       // Constrain to a single line's height (not the full, possibly
       // multi-line, body) so the marker centers on the first line instead of
-      // the whole wrapped paragraph.
-      final firstLineHeight = _body!.preferredLineHeight;
+      // the whole wrapped paragraph. Measured from the actual rendered boxes
+      // (not the style-based preferredLineHeight estimate) so a larger
+      // inline font size on the first line is accounted for.
+      final firstLineBoxes = _body!
+          .getBoxesForSelection(
+            TextSelection(baseOffset: 0, extentOffset: line.length - 1),
+          )
+          .where((box) => box.top == 0)
+          .toList(growable: false);
+      final firstLineHeight = firstLineBoxes.isNotEmpty
+          ? firstLineBoxes
+              .map((box) => box.bottom)
+              .reduce((a, b) => a > b ? a : b)
+          : _body!.preferredLineHeight;
       final leadingConstraints = innerConstraints.copyWith(
           minWidth: indentWidth,
           maxWidth: indentWidth,
